@@ -1,0 +1,15 @@
+@import "tailwindcss";
+/* @custom-variant dark (&:where(.dark, .dark *)); */ 
+*{
+    scroll-behavior: smooth;
+}
+body{
+   font-family: "DM Sans", sans-serif;
+}
+.hk{
+    font-family: "Schoolbell", cursive;
+}
+
+
+
+
