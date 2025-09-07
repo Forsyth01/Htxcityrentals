@@ -18,7 +18,7 @@ const Home = () => {
   return (
     <>
      <SmoothScrollWrapper damping={0.03}>
-      <div className="min-h-screen">
+      <div className="min-h-screen md:py-20 py-10">
         {/* <Header /> */}
         <HeroSection />
         {/* <Hero /> */}
@@ -32,8 +32,8 @@ const Home = () => {
         <FAQ />
         <ContactPage/>
         {/* <Quote /> */}
-        <Footer />
       </div>
+        <Footer />
       </SmoothScrollWrapper>
     </>
   );

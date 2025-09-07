@@ -68,70 +68,74 @@ export default function GraduationPackages() {
 
   return (
     <>
-    <SmoothScrollWrapper damping={0.03}>
-      <section className="bg-gray-50 py-16 px-4 md:px-16 my-20">
-        <div className="w-full max-w-5xl mx-auto">
-          <h2 className="text-4xl font-extrabold text-center mb-8 text-gray-900">
-            Graduation Party Packages 🎓
-          </h2>
-          <p className="text-center max-w-3xl mx-auto mb-12 text-gray-600">
-            Celebrate your graduate’s big achievement in style!
-          </p>
+      <SmoothScrollWrapper damping={0.03}>
+        <section className="bg-gray-50 py-16 px-4 md:px-16 my-20 tracking-tighter">
+          <div className="w-full max-w-5xl mx-auto">
+            <h2 className="text-4xl font-extrabold text-center mb-8 text-gray-900">
+              Graduation Party Packages 🎓
+            </h2>
+            <p className="text-center max-w-3xl mx-auto mb-12 text-gray-600">
+              Celebrate your graduate’s big achievement in style!
+            </p>
 
-          <div className="space-y-12">
-            {packages.map((pkg, index) => (
-              <motion.div
-                key={pkg.id}
-                initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                className="flex flex-col md:flex-row items-center bg-white rounded-3xl shadow-xl overflow-hidden hover:scale-105 transition-transform duration-300"
-              >
-                {/* Image */}
+            <div className="space-y-12 flex flex-col items-center">
+              {packages.map((pkg, index) => (
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  className="w-full md:w-1/3 flex-shrink-0 h-48 sm:h-56 md:h-64 lg:h-72 overflow-hidden"
+                  key={pkg.id}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.5, delay: index * 0.15 }}
+                  className="flex flex-col md:flex-row items-center bg-white rounded-2xl shadow-md overflow-hidden hover:scale-102 transition-transform duration-300 w-full max-w-3xl"
                 >
-                  <img
-                    src={pkg.image}
-                    alt={pkg.title}
-                    className="w-full h-full sm:object-contai object-cover"
-                  />
+                  {/* Image */}
+                  <motion.div
+                    whileHover={{ scale: 1.03 }}
+                    className="w-full md:w-1/3 flex-shrink-0 h-40 sm:h-48 md:h-52 lg:h-56 overflow-hidden"
+                  >
+                    <img
+                      src={pkg.image}
+                      alt={pkg.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </motion.div>
+
+                  {/* Content */}
+                  <div className="w-full md:w-2/3 p-6 md:p-8 flex flex-col justify-between">
+                    <div>
+                      <div className="h-1 w-12 bg-orange-600 rounded-full mb-3"></div>
+                      <h3 className="text-2xl font-bold mb-2 text-gray-900">
+                        {pkg.title}
+                      </h3>
+                      <p className="text-gray-600 mb-4 text-sm">
+                        {pkg.description}
+                      </p>
+                      <ul className="list-disc list-inside space-y-1 text-gray-700 mb-4 text-sm">
+                        {pkg.items.map((item, idx) => (
+                          <li key={idx}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                      <span className="text-xl font-extrabold text-orange-600">
+                        ${pkg.price.toFixed(2)}
+                      </span>
+                      <button
+                        onClick={() => handleBookNow(pkg)}
+                        className="bg-orange-600 text-white py-2.5 px-6 rounded-lg hover:bg-orange-700 transition w-full md:w-auto text-sm"
+                      >
+                        Get Quote
+                      </button>
+                    </div>
+                  </div>
                 </motion.div>
-
-                {/* Content */}
-                <div className="w-full md:w-2/3 p-8 md:p-12 flex flex-col justify-between">
-                  <div>
-                    <div className="h-1 w-16 bg-orange-600 rounded-full mb-4"></div>
-                    <h3 className="text-3xl font-bold mb-4 text-gray-900">{pkg.title}</h3>
-                    <p className="text-gray-600 mb-6">{pkg.description}</p>
-                    <ul className="list-disc list-inside space-y-2 text-gray-700 mb-6">
-                      {pkg.items.map((item, idx) => (
-                        <li key={idx}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                    <span className="text-2xl font-extrabold text-orange-600">
-                      ${pkg.price.toFixed(2)}
-                    </span>
-                    <button
-                      onClick={() => handleBookNow(pkg)}
-                      className="bg-orange-600 text-white py-3 px-8 rounded-xl hover:bg-orange-700 transition w-full md:w-auto"
-                    >
-                      Get Quote
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-      <Footer />
-        </SmoothScrollWrapper>
+        </section>
+        <Footer />
+      </SmoothScrollWrapper>
     </>
   );
 }

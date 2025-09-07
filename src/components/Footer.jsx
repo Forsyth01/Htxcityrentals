@@ -11,7 +11,7 @@ export default function Footer() {
 
   return (
     <motion.footer
-      className="mt-20 border-t border-slate-200"
+      className="mt-2 border-t border-slate-200"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
