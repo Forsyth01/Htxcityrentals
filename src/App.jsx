@@ -35,8 +35,8 @@ const App = () => {
       {/* AnimatePresence uses browser scrollbar only */}
       <AnimatePresence mode="wait" initial={true}>
         <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Home />} />
           {[
-            { path: "/", Component: Home },
             { path: "/ourproducts", Component: OurProducts },
             { path: "/cart", Component: MyCart },
             { path: "/graduation-packages", Component: GraduationPackages },

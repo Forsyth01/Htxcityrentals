@@ -126,10 +126,10 @@ export default function ModernQuoteForm({ isOpen, onClose }) {
     // Try using emailjs.sendForm instead
     emailjs
       .send(
-        "service_pnsl2nc", // Service ID
-        "template_ataw108", // Template ID
+        "service_a5eg6jx", // Service ID
+        "template_ik4bw4c", // Template ID
         finalTemplateParams,
-        "ten7Qz80l-3DX3lWG" // Public Key
+        "PU3X7cMzJhY_5BJ9P" // Public Key
       )
       .then((response) => {
         console.log("SUCCESS! Response:", response);

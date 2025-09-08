@@ -41,7 +41,9 @@ export default function Header() {
             {/* {!isGraduationPage && <NavLink href="#packages">Packages</NavLink>} */}
             {!isGraduationPage && <NavLink href="#gallery">Gallery</NavLink>}
             {!isGraduationPage && <NavLink href="#faq">FAQ</NavLink>}
-            {!isGraduationPage && <NavLink href="#contactus">Contact us</NavLink>}
+            {!isGraduationPage && (
+              <NavLink href="#contactus">Contact us</NavLink>
+            )}
             <Link
               to="/graduation-packages"
               className="text-base font-medium text-gray-800 hover:text-orange-600 transition-colors duration-200"
@@ -55,7 +57,7 @@ export default function Header() {
         <div className="flex items-center gap-4 relative">
           {/* Cart Button */}
           <Link to="/cart" className="relative">
-            <button className="p-2 rounded-full bg-white/50 text-gray-700 hover:bg-white/80 transition-all duration-200">
+            <button className="p-2 rounded-full cursor-pointer bg-white/50 text-gray-700 hover:bg-white/80 transition-all duration-200">
               <ShoppingCart className="w-5 h-5" />
               {cartItems.length > 0 && (
                 <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center text-xs font-bold text-white bg-red-600 rounded-full">
@@ -68,33 +70,43 @@ export default function Header() {
           {/* Cart page: link back to store on mobile */}
           {isCartPage && (
             <Link to="/ourproducts" className="">
-              <button className="p-2 rounded-full bg-white/50 text-gray-700 hover:bg-white/80 transition-all duration-200">
+              <button className="p-2 cursor-pointer rounded-full bg-white/50 text-gray-700 hover:bg-white/80 transition-all duration-200">
                 <Store className="w-5 h-5" />
               </button>
             </Link>
           )}
 
           {/* Our Rentals button */}
-          {!isCartPage && !isOurProductsPage && !isMyProductPage && !isGraduationPage && (
-            <Link
-              to="/ourproducts"
-              className="hidden md:inline-flex items-center gap-2 px-5 py-2 rounded-full bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 transition-all duration-200 shadow-md"
-            >
-              Our Rentals
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          )}
+          {!isCartPage &&
+            !isOurProductsPage &&
+            !isMyProductPage &&
+            !isGraduationPage && (
+              <Link
+                to="/ourproducts"
+                className="hidden md:inline-flex items-center gap-2 px-5 py-2 rounded-full bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 transition-all duration-200 shadow-md"
+              >
+                Our Rentals
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            )}
 
           {/* Mobile menu button */}
-          {!isCartPage && !isOurProductsPage && !isMyProductPage && !isGraduationPage && (
-            <button
-              className="md:hidden p-2 rounded-full bg-white/50 text-gray-700 hover:bg-white/80 transition-all duration-200"
-              onClick={toggleSidebar}
-              aria-label="Toggle menu"
-            >
-              {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          )}
+          {!isCartPage &&
+            !isOurProductsPage &&
+            !isMyProductPage &&
+            !isGraduationPage && (
+              <button
+                className="md:hidden p-2 rounded-full bg-white/50 text-gray-700 hover:bg-white/80 transition-all duration-200"
+                onClick={toggleSidebar}
+                aria-label="Toggle menu"
+              >
+                {isSidebarOpen ? (
+                  <X className="w-5 h-5" />
+                ) : (
+                  <Menu className="w-5 h-5" />
+                )}
+              </button>
+            )}
         </div>
       </div>
 
@@ -116,7 +128,11 @@ export default function Header() {
           <div className="flex flex-col h-full">
             {/* Sidebar Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-200">
-              <Link to="/" className="font-bold text-xl tracking-tight" onClick={toggleSidebar}>
+              <Link
+                to="/"
+                className="font-bold text-xl tracking-tight"
+                onClick={toggleSidebar}
+              >
                 <span className="text-orange-600">Htx</span> cityrentals
               </Link>
               <button
@@ -130,9 +146,21 @@ export default function Header() {
             {/* Sidebar Navigation */}
             <nav className="flex-1 flex flex-col gap-6 p-6 bg-white">
               {/* {!isGraduationPage && <NavLink href="#packages" onClick={toggleSidebar}>Packages</NavLink>} */}
-              {!isGraduationPage && <NavLink href="#gallery" onClick={toggleSidebar}>Gallery</NavLink>}
-              {!isGraduationPage && <NavLink href="#faq" onClick={toggleSidebar}>FAQ</NavLink>}
-              {!isGraduationPage && <NavLink href="#contactus" onClick={toggleSidebar}>Contact Us</NavLink>}
+              {!isGraduationPage && (
+                <NavLink href="#gallery" onClick={toggleSidebar}>
+                  Gallery
+                </NavLink>
+              )}
+              {!isGraduationPage && (
+                <NavLink href="#faq" onClick={toggleSidebar}>
+                  FAQ
+                </NavLink>
+              )}
+              {!isGraduationPage && (
+                <NavLink href="#contactus" onClick={toggleSidebar}>
+                  Contact Us
+                </NavLink>
+              )}
               <Link
                 to="/graduation-packages"
                 className="text-base font-medium text-gray-800 hover:text-orange-600 transition-colors duration-200"

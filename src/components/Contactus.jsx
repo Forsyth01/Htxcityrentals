@@ -18,14 +18,14 @@ export default function ContactPage() {
 
     emailjs
       .send(
-        "service_pnsl2nc", // ✅ replace with your service ID
-        "template_r6tlzmw", // ✅ replace with your template ID
+        "service_a5eg6jx", // ✅ replace with your service ID
+        "template_ik4bw4c", // ✅ replace with your template ID
         {
           from_name: form.name,
           from_email: form.email,
           message: form.message,
         },
-        "ten7Qz80l-3DX3lWG" // ✅ replace with your EmailJS Public Key
+        "PU3X7cMzJhY_5BJ9P" // ✅ replace with your EmailJS Public Key
       )
       .then(
         () => {

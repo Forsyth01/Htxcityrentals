@@ -6,11 +6,11 @@ const images = [
   "/images/hero/img2.jpg",
   "/images/hero/img3.jpg",
   "/images/hero/img4.jpg",
-  "/images/hero/img5.jpg",
+  "/images/hero/img5.jpg", 
   "/images/hero/img6.jpg",
 ];
 
-export default function HeroSection() {
+export default function Hero2() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Auto-change background every 3 seconds
@@ -88,7 +88,7 @@ export default function HeroSection() {
 
           {/* CTA */}
           <motion.a href="#packages" variants={itemVariants} whileHover={{ scale: 1.05 }}>
-            <button className="mt-6 bg-orange-600 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full hover:bg-orange-700 transition text-sm sm:text-base">
+            <button className="mt-6 cursor-pointer bg-orange-600 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full hover:bg-orange-700 transition text-sm sm:text-base">
               Explore our items
             </button>
           </motion.a>
