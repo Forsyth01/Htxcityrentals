@@ -42,11 +42,16 @@ export default function Cart() {
   return (
     <div className="p-4 flex flex-col md:flex-row gap-6 w-full max-w-5xl mx-auto mt-20 tracking-tighter">
       {/* Quote Form Modal */}
-      <FormContainer isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />
+      <FormContainer
+        isOpen={isQuoteOpen}
+        onClose={() => setIsQuoteOpen(false)}
+      />
 
       {/* Cart Items Section */}
       <div className="flex-1">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-6 tracking-tighter">Your Cart</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6 tracking-tighter">
+          Your Cart
+        </h2>
 
         {cartItems.length === 0 ? (
           <p className="text-gray-500">Your cart is empty</p>
@@ -75,13 +80,16 @@ export default function Cart() {
                       {item.description}
                     </p>
                     <p className="text-orange-600 font-bold text-sm mt-1">
-                      {formatCurrency(item.price * item.quantity * (item.days || 1))}
+                      {formatCurrency(
+                        item.price * item.quantity * (item.days || 1)
+                      )}
                     </p>
                   </div>
 
                   {/* Quantity, Days & Remove Controls */}
                   <div className="flex flex-col sm:flex-row justify-between sm:items-center mt-2 gap-2">
                     {/* Quantity Controls */}
+                    <div className="flex flex-wrap sm:flex-row justify-between w-full sm:w-[65%]">
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => decreaseQuantity(item.cartItemId)}
@@ -98,7 +106,7 @@ export default function Cart() {
                             Math.max(1, parseInt(e.target.value) || 1)
                           )
                         }
-                        className="w-10 text-center border rounded px-1 py-1 text-xs"
+                        className="w-16 text-center border rounded px-1 py-1 text-xs"
                         min="1"
                       />
                       <button
@@ -111,7 +119,9 @@ export default function Cart() {
 
                     {/* Rental Days Input */}
                     <div className="flex items-center gap-2">
-                      <label className="text-xs font-medium text-gray-600">Days:</label>
+                      <label className="text-xs font-medium text-gray-600">
+                        Days:
+                      </label>
                       <input
                         type="number"
                         value={item.days || 1}
@@ -125,14 +135,16 @@ export default function Cart() {
                         min="1"
                       />
                     </div>
-
-                    {/* Remove Button */}
-                    <button
-                      onClick={() => removeFromCart(item.cartItemId)}
-                      className="text-red-500 hover:text-red-600 text-xs flex items-center gap-1"
-                    >
-                      <Trash2 size={14} /> Remove
-                    </button>
+                    </div>
+                    <div className="">
+                      {/* Remove Button */}
+                      <button
+                        onClick={() => removeFromCart(item.cartItemId)}
+                        className="text-red-500 hover:text-red-600 text-xs flex items-center gap-1"
+                      >
+                        <Trash2 size={14} /> Remove
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

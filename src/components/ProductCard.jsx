@@ -62,7 +62,7 @@ export default function ProductCard({ product }) {
             {/* Quantity */}
             <div className="flex items-center gap-2 flex-shrink-0">
               <span className="text-sm font-medium text-gray-700">Qty:</span>
-              <div className="flex items-stretch bg-gray-100 rounded-lg overflow-hidden border border-gray-300">
+              <div className="ml-2 flex items-stretch bg-gray-100 rounded- overflow-hidden borde border-gray-300">
                 <motion.button
                   onClick={() =>
                     setQuantity((q) =>
@@ -98,7 +98,7 @@ export default function ProductCard({ product }) {
             {/* Days */}
             <div className="flex items-center gap-2 flex-shrink-0">
               <span className="text-sm font-medium text-gray-700">Days:</span>
-              <div className="flex items-stretch bg-gray-100 rounded-lg overflow-hidden border border-gray-300">
+              <div className="flex items-stretch bg-gray-100 rounded- overflow-hidden  border-gray-300">
                 <button
                   onClick={() => setDays((d) => Math.max(1, d - 1))}
                   className="px-2 sm:px-3 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition-colors"
