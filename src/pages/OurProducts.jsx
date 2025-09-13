@@ -2,7 +2,6 @@ import React from "react";
 import ProductCard from "../components/ProductCard";
 import { products } from "../utils/products";
 import FAQ from "../components/FAQ";
-import Rentals from "../components/Rentals";
 import Footer from "../components/Footer";
 import CardSection from "../components/CardSection";
 import Gallery from "../components/Gallery";

@@ -15,9 +15,30 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
 
+  const MAX_CART_VALUE = 500_000; // max cart value
+
+  const getTotalPrice = () =>
+    cartItems.reduce(
+      (total, item) => total + item.price * item.quantity * (item.days || 1),
+      0
+    );
+
+  const getItemTotal = (item) => item.price * item.quantity * (item.days || 1);
+
   // Add item to cart
-  const addToCart = (item, quantity = 1) => {
-    if (quantity <= 0) return;
+  const addToCart = (item, quantity = 1, days = 1) => {
+    if (quantity <= 0 || days <= 0) return;
+
+    const currentTotal = getTotalPrice();
+    const itemTotal = item.price * quantity * days;
+
+    if (currentTotal + itemTotal > MAX_CART_VALUE) {
+      toast.error(
+        `Cannot add this item. Cart total cannot exceed $${MAX_CART_VALUE.toLocaleString()}`,
+        { id: "cart-limit" }
+      );
+      return;
+    }
 
     setCartItems((prev) => {
       const existingItem = prev.find((i) => i.id === item.id);
@@ -27,14 +48,21 @@ export const CartProvider = ({ children }) => {
           id: `cart-${item.id}`,
         });
         return prev.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + quantity } : i
+          i.id === item.id
+            ? { ...i, quantity: i.quantity + quantity, days: i.days || days }
+            : i
         );
       } else {
-        const newItem = { ...item, cartItemId: crypto.randomUUID(), quantity };
+        const newItem = {
+          ...item,
+          cartItemId: crypto.randomUUID(),
+          quantity,
+          days,
+        };
         toast.success(`${item.name} (x${quantity}) added to cart!`, {
           id: `cart-${newItem.cartItemId}`,
         });
-        return [...prev, newItem];
+        return [newItem, ...prev];
       }
     });
   };
@@ -52,29 +80,67 @@ export const CartProvider = ({ children }) => {
       removeFromCart(cartItemId);
       return;
     }
+
+    const item = cartItems.find((i) => i.cartItemId === cartItemId);
+    if (!item) return;
+
+    const currentTotalExcludingItem =
+      getTotalPrice() - getItemTotal(item);
+    const newItemTotal = item.price * quantity * (item.days || 1);
+
+    if (currentTotalExcludingItem + newItemTotal > MAX_CART_VALUE) {
+      toast.error(
+        `Cannot update quantity. Cart total cannot exceed $${MAX_CART_VALUE.toLocaleString()}`,
+        { id: `cart-limit-${cartItemId}` }
+      );
+      return;
+    }
+
     setCartItems((prev) =>
       prev.map((i) =>
         i.cartItemId === cartItemId ? { ...i, quantity } : i
       )
     );
+
+    toast.success(`${item.name} quantity updated to ${quantity}`, {
+      id: `cart-${cartItemId}`,
+    });
+  };
+
+  const updateDays = (cartItemId, days) => {
+    if (days <= 0) days = 1;
+
     const item = cartItems.find((i) => i.cartItemId === cartItemId);
-    if (item) {
-      toast.success(`${item.name} quantity updated to ${quantity}`, {
-        id: `cart-${cartItemId}`,
-      });
+    if (!item) return;
+
+    const currentTotalExcludingItem =
+      getTotalPrice() - getItemTotal(item);
+    const newItemTotal = item.price * item.quantity * days;
+
+    if (currentTotalExcludingItem + newItemTotal > MAX_CART_VALUE) {
+      toast.error(
+        `Cannot update rental days. Cart total cannot exceed $${MAX_CART_VALUE.toLocaleString()}`,
+        { id: `cart-limit-${cartItemId}` }
+      );
+      return;
     }
+
+    setCartItems((prev) =>
+      prev.map((i) =>
+        i.cartItemId === cartItemId ? { ...i, days } : i
+      )
+    );
+
+    toast.success(`${item.name} rental days updated to ${days}`, {
+      id: `cart-${cartItemId}`,
+    });
   };
 
   const increaseQuantity = (cartItemId) => {
     const item = cartItems.find((i) => i.cartItemId === cartItemId);
     if (!item) return;
 
-    setCartItems((prev) =>
-      prev.map((i) =>
-        i.cartItemId === cartItemId ? { ...i, quantity: i.quantity + 1 } : i
-      )
-    );
-    toast.success(`${item.name} quantity increased!`, { id: `cart-${cartItemId}` });
+    updateQuantity(cartItemId, item.quantity + 1);
   };
 
   const decreaseQuantity = (cartItemId) => {
@@ -86,12 +152,7 @@ export const CartProvider = ({ children }) => {
       return;
     }
 
-    setCartItems((prev) =>
-      prev.map((i) =>
-        i.cartItemId === cartItemId ? { ...i, quantity: i.quantity - 1 } : i
-      )
-    );
-    toast(`${item.name} quantity decreased`, { id: `cart-${cartItemId}` });
+    updateQuantity(cartItemId, item.quantity - 1);
   };
 
   const clearCart = () => {
@@ -102,9 +163,6 @@ export const CartProvider = ({ children }) => {
   const getTotalItems = () => cartItems.length;
   const getTotalQuantity = () =>
     cartItems.reduce((total, item) => total + item.quantity, 0);
-  const getTotalPrice = () =>
-    cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-  const getItemTotal = (item) => item.price * item.quantity;
 
   return (
     <CartContext.Provider
@@ -113,6 +171,7 @@ export const CartProvider = ({ children }) => {
         addToCart,
         removeFromCart,
         updateQuantity,
+        updateDays,
         increaseQuantity,
         decreaseQuantity,
         clearCart,

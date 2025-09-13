@@ -29,7 +29,6 @@ const App = () => {
   return (
     <CartProvider>
       <Toaster position="bottom-right" toastOptions={{ autoClose: 1000 }} />
-
       <Header />
 
       {/* AnimatePresence uses browser scrollbar only */}
@@ -61,10 +60,10 @@ const App = () => {
         </Routes>
       </AnimatePresence>
 
-      <QuoteForm
+      {/* <QuoteForm
         isOpen={isQuoteOpen}
         onClose={() => setIsQuoteOpen(false)}
-      />
+      /> */}
     </CartProvider>
   );
 };

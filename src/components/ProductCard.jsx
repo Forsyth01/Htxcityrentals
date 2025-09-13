@@ -6,16 +6,17 @@ import { motion } from "framer-motion";
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState("1");
+  const [days, setDays] = useState(1);
 
   const handleAddToCart = () => {
-    const qty = Math.max(1, parseInt(quantity) || 1);
-    addToCart(product, qty);
+    addToCart(product, quantity, days);
     setQuantity("1");
+    setDays(1);
   };
 
   return (
     <motion.div
-      className="max-w-sm mx-auto w-full"
+      className="max-w-sm mx-auto w-full h-full"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
@@ -49,39 +50,44 @@ export default function ProductCard({ product }) {
             <p className="text-gray-500 text-xs sm:text-sm mt-1 tracking-tight line-clamp-2 sm:line-clamp-none">
               {product.description}
             </p>
+
+            {/* Price */}
             <p className="text-orange-600 font-bold text-sm sm:text-lg mt-2 tracking-tight">
               ${product.price}/day
             </p>
           </div>
 
-          {/* Quantity + Cart */}
-          <div className="mt-2 sm:mt-3 flex flex-col items-center w-full gap-2">
-            <div className="flex justify-between w-full gap-4 items-center">
-              <h1 className="text-xs sm:text-sm font-medium text-gray-700 tracking-tight">
-                Qty
-              </h1>
-              <div className="flex items-center justify-between w-24 sm:w-full bg-gray-200 text-center rounded-lg shadow-sm overflow-hidden">
+          {/* Quantity + Days */}
+          <div className="mt-3 flex gap-4 flex-wrap">
+            {/* Quantity */}
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <span className="text-sm font-medium text-gray-700">Qty:</span>
+              <div className="flex items-stretch bg-gray-100 rounded-lg overflow-hidden border border-gray-300">
                 <motion.button
                   onClick={() =>
-                    setQuantity((q) => String(Math.max(1, parseInt(q) - 1 || 1)))
+                    setQuantity((q) =>
+                      String(Math.max(1, parseInt(q) - 1 || 1))
+                    )
                   }
-                  className="px-2 py-2 sm:px-4 sm:py-2 bg-gray-100 hover:bg-white transition-colors"
+                  className="px-2 sm:px-3 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition-colors"
                   whileTap={{ scale: 0.9 }}
                 >
                   <Minus size={14} />
                 </motion.button>
+
                 <input
                   type="number"
                   min="1"
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
-                  className="w-full max-w-[40px] sm:max-w-[50px] text-center outline-none text-xs sm:text-sm"
+                  className="w-14 text-center outline-none text-sm bg-gray-100"
                 />
+
                 <motion.button
                   onClick={() =>
                     setQuantity((q) => String((parseInt(q) || 1) + 1))
                   }
-                  className="px-2 py-2 sm:px-4 sm:py-2 bg-gray-100 hover:bg-white transition-colors"
+                  className="px-2 sm:px-3 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition-colors"
                   whileTap={{ scale: 0.9 }}
                 >
                   <Plus size={14} />
@@ -89,15 +95,46 @@ export default function ProductCard({ product }) {
               </div>
             </div>
 
-            <motion.button
-              onClick={handleAddToCart}
-              className="w-full flex items-center justify-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:from-orange-600 hover:to-orange-700 transition-colors text-xs sm:text-sm font-medium tracking-tight"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <ShoppingCart size={16} /> Add to Quote
-            </motion.button>
+            {/* Days */}
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <span className="text-sm font-medium text-gray-700">Days:</span>
+              <div className="flex items-stretch bg-gray-100 rounded-lg overflow-hidden border border-gray-300">
+                <button
+                  onClick={() => setDays((d) => Math.max(1, d - 1))}
+                  className="px-2 sm:px-3 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition-colors"
+                >
+                  <Minus size={14} />
+                </button>
+
+                <input
+                  type="number"
+                  min="1"
+                  value={days}
+                  onChange={(e) =>
+                    setDays(Math.max(1, parseInt(e.target.value) || 1))
+                  }
+                  className="w-14 text-center outline-none text-sm bg-gray-100"
+                />
+
+                <button
+                  onClick={() => setDays((d) => d + 1)}
+                  className="px-2 sm:px-3 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition-colors"
+                >
+                  <Plus size={14} />
+                </button>
+              </div>
+            </div>
           </div>
+
+          {/* Add to Cart Button */}
+          <motion.button
+            onClick={handleAddToCart}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:from-orange-600 hover:to-orange-700 transition-colors text-xs sm:text-sm font-medium tracking-tight mt-3"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <ShoppingCart size={16} /> Add to Quote
+          </motion.button>
         </div>
       </motion.div>
     </motion.div>

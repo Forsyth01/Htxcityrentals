@@ -2,11 +2,11 @@ import React from "react";
 import FAQ from "../components/FAQ";
 import Footer from "../components/Footer";
 import Gallery from "../components/Gallery";
-import PreviewCart from "../utils/PreviewCart";
+import PreviewCart from "../components/PreviewCart";
 import CardSection from "../components/CardSection";
 import ContactPage from "../components/Contactus";
 import SmoothScrollWrapper from "../components/SmoothScrollWrapper";
-import Hero2 from "../components/Test";
+import Hero2 from "../components/Hero";
 
 const Home = () => {
   return (

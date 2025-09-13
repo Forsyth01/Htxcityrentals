@@ -1,6 +1,6 @@
 import React from 'react';
-import ProductCard from '../components/ProductCard';
-import { products } from './products';
+import ProductCard from './ProductCard';
+import { products } from '../utils/products';
 import { Link } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -52,6 +52,8 @@ const PreviewCart = () => {
             ))}
           </div>
         </motion.div>
+
+        
 
         {/* Arrow Down with Link */}
         <motion.div

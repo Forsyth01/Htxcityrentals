@@ -1,14 +1,15 @@
 // Cart.jsx
 import React, { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
-import QuoteForm from "./QuoteForm";
 import { Minus, Plus, Trash2 } from "lucide-react";
+import FormContainer from "./ModernQuoteForm/FormContainer";
 
 export default function Cart() {
   const {
     cartItems,
     removeFromCart,
     updateQuantity,
+    updateDays,
     increaseQuantity,
     decreaseQuantity,
     clearCart,
@@ -39,12 +40,9 @@ export default function Cart() {
   }, [isQuoteOpen]);
 
   return (
-    <div
-      className="p-4 flex flex-col md:flex-row gap-6 w-full max-w-5xl mx-auto mt-20 tracking-tighter"
-      style={{ minHeight: cartItems.length === 0 ? "60vh" : "auto" }}
-    >
+    <div className="p-4 flex flex-col md:flex-row gap-6 w-full max-w-5xl mx-auto mt-20 tracking-tighter">
       {/* Quote Form Modal */}
-      <QuoteForm isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />
+      <FormContainer isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />
 
       {/* Cart Items Section */}
       <div className="flex-1">
@@ -77,12 +75,12 @@ export default function Cart() {
                       {item.description}
                     </p>
                     <p className="text-orange-600 font-bold text-sm mt-1">
-                      {formatCurrency(item.price * item.quantity)}
+                      {formatCurrency(item.price * item.quantity * (item.days || 1))}
                     </p>
                   </div>
 
-                  {/* Quantity & Remove Controls */}
-                  <div className="flex justify-between items-center mt-2">
+                  {/* Quantity, Days & Remove Controls */}
+                  <div className="flex flex-col sm:flex-row justify-between sm:items-center mt-2 gap-2">
                     {/* Quantity Controls */}
                     <div className="flex items-center gap-2">
                       <button
@@ -109,6 +107,23 @@ export default function Cart() {
                       >
                         <Plus size={14} />
                       </button>
+                    </div>
+
+                    {/* Rental Days Input */}
+                    <div className="flex items-center gap-2">
+                      <label className="text-xs font-medium text-gray-600">Days:</label>
+                      <input
+                        type="number"
+                        value={item.days || 1}
+                        onChange={(e) =>
+                          updateDays(
+                            item.cartItemId,
+                            Math.max(1, parseInt(e.target.value) || 1)
+                          )
+                        }
+                        className="w-14 text-center border rounded px-1 py-1 text-xs"
+                        min="1"
+                      />
                     </div>
 
                     {/* Remove Button */}

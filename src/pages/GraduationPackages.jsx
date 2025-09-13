@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useCart } from "../context/CartContext";
 import Footer from "../components/Footer";
@@ -55,31 +55,61 @@ const packages = [
 ];
 
 export default function GraduationPackages() {
-  const { addToCart } = useCart();
+  const { addToCart, cartItems, updateDays, updateQuantity } = useCart();
+  const [rentalData, setRentalData] = useState({}); // { [pkgId]: { days: 1, quantity: 1 } }
 
+  // Add package to cart
   const handleBookNow = (pkg) => {
-    addToCart({
-      id: `package-${pkg.id}`, // unique id for cart
-      name: pkg.title,
-      price: pkg.price,
-      image: pkg.image,
-    });
+    const days = rentalData[pkg.id]?.days || 1;
+    const quantity = rentalData[pkg.id]?.quantity || 1;
+    addToCart(
+      {
+        id: `package-${pkg.id}`,
+        name: pkg.title,
+        price: pkg.price,
+        image: pkg.image,
+      },
+      quantity,
+      days
+    );
+  };
+
+  // Handle days change
+  const handleDaysChange = (pkg, days) => {
+    setRentalData((prev) => ({
+      ...prev,
+      [pkg.id]: { ...(prev[pkg.id] || {}), days },
+    }));
+
+    const cartItem = cartItems.find((i) => i.id === `package-${pkg.id}`);
+    if (cartItem) updateDays(cartItem.cartItemId, days);
+  };
+
+  // Handle quantity change
+  const handleQuantityChange = (pkg, quantity) => {
+    setRentalData((prev) => ({
+      ...prev,
+      [pkg.id]: { ...(prev[pkg.id] || {}), quantity },
+    }));
+
+    const cartItem = cartItems.find((i) => i.id === `package-${pkg.id}`);
+    if (cartItem) updateQuantity(cartItem.cartItemId, quantity);
   };
 
   return (
-    <>
-      <SmoothScrollWrapper damping={0.03}>
-        <section className="bg-gray-50 py-16 px-4 md:px-16 my-20 tracking-tighter">
-          <div className="w-full max-w-5xl mx-auto">
-            <h2 className="text-4xl font-extrabold text-center mb-8 text-gray-900">
-              Graduation Party Packages 🎓
-            </h2>
-            <p className="text-center max-w-3xl mx-auto mb-12 text-gray-600">
-              Celebrate your graduate’s big achievement in style!
-            </p>
+    <SmoothScrollWrapper damping={0.03}>
+      <section className="bg-gray-50 py-16 px-4 md:px-16 my-20 tracking-tighter">
+        <div className="w-full max-w-5xl mx-auto">
+          <h2 className="text-4xl font-extrabold text-center mb-8 text-gray-900">
+            Graduation Party Packages 🎓
+          </h2>
 
-            <div className="space-y-12 flex flex-col items-center">
-              {packages.map((pkg, index) => (
+          <div className="space-y-12 flex flex-col items-center">
+            {packages.map((pkg, index) => {
+              const days = rentalData[pkg.id]?.days || 1;
+              const quantity = rentalData[pkg.id]?.quantity || 1;
+
+              return (
                 <motion.div
                   key={pkg.id}
                   initial={{ opacity: 0, y: 40 }}
@@ -116,26 +146,63 @@ export default function GraduationPackages() {
                         ))}
                       </ul>
                     </div>
-
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                    <div className="">
                       <span className="text-xl font-extrabold text-orange-600">
-                        ${pkg.price.toFixed(2)}
+                        ${(pkg.price * quantity * days).toFixed(2)}
                       </span>
-                      <button
-                        onClick={() => handleBookNow(pkg)}
-                        className="bg-orange-600 text-white py-2.5 px-6 rounded-lg hover:bg-orange-700 transition w-full md:w-auto text-sm"
-                      >
-                        Get Quote
-                      </button>
+                    </div>
+                    {/* Quantity, Days & Price */}
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                      <div className="flex items-center gap-2">
+                        <label className="text-sm text-gray-700">
+                          Quantity:
+                        </label>
+                        <input
+                          type="number"
+                          min="1"
+                          value={quantity}
+                          onChange={(e) =>
+                            handleQuantityChange(
+                              pkg,
+                              Math.max(1, Number(e.target.value))
+                            )
+                          }
+                          className="w-16 border rounded px-2 py-1 text-sm"
+                        />
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <label className="text-sm text-gray-700">Days:</label>
+                        <input
+                          type="number"
+                          min="1"
+                          value={days}
+                          onChange={(e) =>
+                            handleDaysChange(
+                              pkg,
+                              Math.max(1, Number(e.target.value))
+                            )
+                          }
+                          className="w-16 border rounded px-2 py-1 text-sm"
+                        />
+                      </div>
+                      <div className="">
+                        <button
+                          onClick={() => handleBookNow(pkg)}
+                          className="bg-orange-600 text-white py-2.5 px-6 rounded-lg hover:bg-orange-700 transition w-full md:w-auto text-sm"
+                        >
+                          Get Quote
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
-              ))}
-            </div>
+              );
+            })}
           </div>
-        </section>
-        <Footer />
-      </SmoothScrollWrapper>
-    </>
+        </div>
+      </section>
+      <Footer />
+    </SmoothScrollWrapper>
   );
 }

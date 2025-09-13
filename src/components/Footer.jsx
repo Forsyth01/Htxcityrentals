@@ -45,7 +45,7 @@ export default function Footer() {
             whileHover={{ y: -2, color: "#f97316" }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <Link to="/ourproducts" className="mr-2">
+            <Link to ="/ourproducts" className="mr-2">
               Get a Quote
             </Link>
           </MotionLink>
