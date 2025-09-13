@@ -7,7 +7,7 @@ import DeliveryInfo from "./DeliveryInfo";
 import CartSummary from "./CartSummary";
 import Preview from "./Preview";
 import FooterActions from "./FooterActions";
-import * as emailService from "./emailService";
+import { sendQuoteMessage } from "../../utils/emailService"; // ✅ updated import
 import { useCart } from "../../context/CartContext"; 
 import { useNavigate } from "react-router";
 
@@ -33,18 +33,11 @@ export default function FormContainer({ isOpen, onClose }) {
     suite: "",
   });
 
-  // Email validator
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-  // Phone validator
-  const isValidPhone = (phone) => {
-    const cleaned = phone.replace(/\s+/g, "");
-    return /^\+?\d{7,15}$/.test(cleaned);
-  };
+  const isValidPhone = (phone) => /^\+?\d{7,15}$/.test(phone.replace(/\s+/g, ""));
 
   useEffect(() => {
-    if (isOpen) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "auto";
+    document.body.style.overflow = isOpen ? "hidden" : "auto";
     return () => (document.body.style.overflow = "auto");
   }, [isOpen]);
 
@@ -74,38 +67,12 @@ export default function FormContainer({ isOpen, onClose }) {
       toast.error("Please fill in required fields (Name, Email, Phone)");
       return;
     }
-    // if (!cartItems || cartItems.length === 0) {
-    //   toast.error("Your cart is empty");
-    //   return;
-    // }
-    // if (!formData.deliveryAddress) {
-    //   toast.error("Please enter a delivery address");
-    //   return;
-    // }
-    // if (!formData.eventDate) {
-    //   toast.error("Please select an event date");
-    //   return;
-    // }
-    // if (!formData.eventStartTime) {
-    //   toast.error("Please select an event start time");
-    //   return;
-    // }
-    // if (!isValidEmail(formData.email)) {
-    //   toast.error("Please enter a valid email address");
-    //   return;
-    // }
-    // if (!isValidPhone(formData.phoneNumber)) {
-    //   toast.error("Invalid phone number");
-    //   return;
-    // }
-
     setShowPreview(true);
   };
 
-  const handleSend = () => {
+  const handleSend = async () => {
     setSubmitting(true);
 
-    // Generate HTML for items
     const itemsRows = cartItems
       .map(
         (item) => `
@@ -134,12 +101,8 @@ export default function FormContainer({ isOpen, onClose }) {
       building_type: formData.buildingType || "N/A",
       delivery_address: formData.deliveryAddress,
       suite: formData.suite || "N/A",
-      items: itemsRows, // pass HTML here
+      items: itemsRows,
       total: formatCurrency(calculateTotal()),
-    };
-
-    const finalTemplateParams = {
-      ...templateParams,
       to_name: "Your Business Name",
       to_email: "forsythokoeguale01@gmail.com",
       from_name: formData.fullName,
@@ -147,42 +110,39 @@ export default function FormContainer({ isOpen, onClose }) {
       reply_to: formData.email,
     };
 
-    emailService
-      .sendQuote(finalTemplateParams)
-      .then(() => {
-        toast.success("Quote sent successfully!");
-        clearCart();
-        setFormData({
-          fullName: "",
-          email: "",
-          companyName: "",
-          phoneNumber: "",
-          eventDate: "",
-          eventStartTime: "",
-          pickupDate: "",
-          nextDayPickup: "",
-          eventType: "",
-          needSetup: "",
-          buildingType: "",
-          deliveryAddress: "",
-          suite: "",
-        });
-        setShowPreview(false);
-        setSubmitting(false);
-        onClose();
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("FAILED! Error details:", error);
-        toast.error("Failed to send quote: " + (error.text || error.message));
-        setSubmitting(false);
+    try {
+      await sendQuoteMessage(templateParams); // ✅ use service that reads .env keys
+      toast.success("Quote sent successfully!");
+      clearCart();
+      setFormData({
+        fullName: "",
+        email: "",
+        companyName: "",
+        phoneNumber: "",
+        eventDate: "",
+        eventStartTime: "",
+        pickupDate: "",
+        nextDayPickup: "",
+        eventType: "",
+        needSetup: "",
+        buildingType: "",
+        deliveryAddress: "",
+        suite: "",
       });
+      setShowPreview(false);
+      setSubmitting(false);
+      onClose();
+      navigate("/");
+    } catch (error) {
+      console.error("FAILED! Error details:", error);
+      toast.error("Failed to send quote: " + (error.text || error.message));
+      setSubmitting(false);
+    }
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden">
-        {/* Header */}
         <div className="flex justify-between items-center px-6 py-4 border-b">
           <h2 className="text-lg font-bold text-orange-500">Request a Quote</h2>
           <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full">
@@ -190,7 +150,6 @@ export default function FormContainer({ isOpen, onClose }) {
           </button>
         </div>
 
-        {/* Body */}
         <div
           className={`flex-1 overflow-y-auto p-6 sm:grid gap-6 ${
             !showPreview ? "md:grid-cols-4" : "md:grid-cols-3"
@@ -222,7 +181,6 @@ export default function FormContainer({ isOpen, onClose }) {
           )}
         </div>
 
-        {/* Footer */}
         <div className="px-6 py-4 border-t bg-gray-50 flex justify-end gap-3">
           <FooterActions
             showPreview={showPreview}

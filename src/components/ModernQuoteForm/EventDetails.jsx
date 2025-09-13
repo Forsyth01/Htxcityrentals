@@ -8,7 +8,7 @@ export default function EventDetails({ formData, onChange }) {
       <h3 className="font-semibold text-gray-700 mt-4 mb-1 flex items-center gap-2">
         <Calendar className="w-4 h-4" /> Event Details
       </h3>
-
+<label className="text-gray-600 text-sm">Event Date</label>
       <input
         type="date"
         name="eventDate"
@@ -16,6 +16,7 @@ export default function EventDetails({ formData, onChange }) {
         onChange={onChange}
         className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
       />
+      <label className="text-gray-600 text-sm">Event Time</label>
       <input
         type="time"
         name="eventStartTime"
@@ -36,14 +37,14 @@ export default function EventDetails({ formData, onChange }) {
         <option value="Conference">Conference</option>
         <option value="Other">Other</option>
       </select>
-      <input
+      {/* <input
         type="date"
         name="pickupDate"
         value={formData.pickupDate}
         onChange={onChange}
         className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         placeholder="Pickup Date"
-      />
+      /> */}
       <select
         name="nextDayPickup"
         value={formData.nextDayPickup}
