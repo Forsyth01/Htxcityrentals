@@ -32,8 +32,12 @@ export default function Header() {
       <div className="mx-auto lg:max-w-[90%] px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="font-bold text-xl tracking-tight">
-          <span className="text-orange-600 italic">Htx</span>cityrentals
+          {/* <span className="text-orange-600 italic">Htx</span>cityrentals */}
+          <img src="/logo.png" alt="" className="h-20" />
         </Link>
+        {/* <Link to="/" className="font-bold text-xl tracking-tight">
+          <span className="text-orange-600 italic">Htx</span>cityrentals
+        </Link> */}
 
         {/* Desktop Nav */}
         {!isCartPage && !isOurProductsPage && !isMyProductPage && (
