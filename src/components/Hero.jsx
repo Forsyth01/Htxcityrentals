@@ -37,7 +37,7 @@ export default function Hero2() {
   };
 
   return (
-    <section className="relative h-screen md:h-[100vh] lg:h-[100vh] xl:h-screen flex items-center justify-center text-center overflow-hidden">
+    <section className="relative h-[100vh] 2xl:h-[95vh] flex items-center justify-center text-center overflow-hidden">
       {/* Background Images with fade transition */}
       {images.map((img, index) => (
         <div
@@ -54,7 +54,7 @@ export default function Hero2() {
 
       {/* Animated Hero Content */}
       <motion.div
-        className="flex flex-col sm:h-[20vh] md:h-[40vh] lg:h-[40vh] 2xl:h-[30vh] h-[35vh] relative z-10"
+        className="relative 2xl:h-[30vh] xl:h-[40vh] lg:h-[40vh] md:h-[35vh] sm:h-[45vh] h-[20vh] "
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -70,7 +70,7 @@ export default function Hero2() {
 
           {/* Hero Heading */}
           <motion.h1
-            className="mt-4 text-3xl sm:text-4xl md:text-4xl lg:text-6xl font-bold text-white tracking-tighter"
+            className="mt-4 text-3xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-white tracking-tighter"
             variants={itemVariants}
           >
             Transform Your Event with <br />
@@ -79,7 +79,7 @@ export default function Hero2() {
 
           {/* Subtext */}
           <motion.p
-            className="mt-4 text-gray-200 text-sm sm:text-base md:text-base xl:text-lg leading-relaxed max-w-2xl mx-auto"
+            className="mt-4 text-gray-200 text-sm sm:text-sm md:text-base xl:text-lg leading-relaxed max-w-2xl mx-auto"
             variants={itemVariants}
           >
             Premium tables, chairs, and linens for weddings, parties, and corporate events.
@@ -88,7 +88,7 @@ export default function Hero2() {
 
           {/* CTA */}
           <motion.a href="#packages" variants={itemVariants} whileHover={{ scale: 1.05 }}>
-            <button className="mt-6 cursor-pointer bg-orange-600 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full hover:bg-orange-700 transition text-sm sm:text-base">
+            <button className="mt-6 cursor-pointer bg-orange-600 text-white px-5 sm:px-5 py-2.5 xl:py-3 rounded-full hover:bg-orange-700 transition text-sm sm:text-base">
               Explore our items
             </button>
           </motion.a>
