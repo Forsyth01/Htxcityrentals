@@ -54,7 +54,7 @@ export default function Hero2() {
 
       {/* Animated Hero Content */}
       <motion.div
-        className="flex flex-col justify-end md:h-[50vh] lg:h-[70vh] 2xl:h-[50vh] h-[50vh] relative z-10"
+        className="flex flex-col sm:h-[20vh] md:h-[40vh] lg:h-[40vh] 2xl:h-[30vh] h-[35vh] relative z-10"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
