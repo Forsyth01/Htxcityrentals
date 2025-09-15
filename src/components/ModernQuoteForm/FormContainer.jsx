@@ -62,15 +62,52 @@ export default function FormContainer({ isOpen, onClose }) {
       maximumFractionDigits: 2,
     })}`;
 
-  const handlePreview = () => {
+  const validateForm = () => {
     if (!formData.fullName || !formData.email || !formData.phoneNumber) {
       toast.error("Please fill in required fields (Name, Email, Phone)");
-      return;
+      return false;
     }
-    setShowPreview(true);
+
+    if (!isValidEmail(formData.email)) {
+      toast.error("Invalid email format");
+      return false;
+    }
+
+    if (!isValidPhone(formData.phoneNumber)) {
+      toast.error("Invalid phone number format");
+      return false;
+    }
+
+    if (!formData.eventDate) {
+      toast.error("Please provide an event date");
+      return false;
+    }
+
+    const eventDate = new Date(formData.eventDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (eventDate < today) {
+      toast.error("Event date cannot be in the past");
+      return false;
+    }
+
+    if (!formData.eventStartTime) {
+      toast.error("Please provide an event start time");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handlePreview = () => {
+    if (validateForm()) {
+      setShowPreview(true);
+    }
   };
 
   const handleSend = async () => {
+    if (!validateForm()) return;
+
     setSubmitting(true);
 
     const itemsRows = cartItems
