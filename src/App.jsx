@@ -11,6 +11,7 @@ import Header from "./components/Header";
 import MyCart from "./pages/MyCart";
 import GraduationPackages from "./pages/GraduationPackages";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Animation variants
 const pageVariants = {
@@ -27,6 +28,8 @@ const App = () => {
   const location = useLocation();
 
   return (
+    <>
+      <ScrollToTop/>
     <CartProvider>
       <Toaster position="bottom-right" toastOptions={{ autoClose: 1000 }} />
       <Header />
@@ -65,6 +68,7 @@ const App = () => {
         onClose={() => setIsQuoteOpen(false)}
       /> */}
     </CartProvider>
+    </>
   );
 };
 

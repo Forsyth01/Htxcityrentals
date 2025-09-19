@@ -31,11 +31,13 @@ export default function FormContainer({ isOpen, onClose }) {
     buildingType: "",
     deliveryAddress: "",
     suite: "",
+    state: "",
+    zipCode: "",
   });
 
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const isValidPhone = (phone) => /^\+?\d{7,15}$/.test(phone.replace(/\s+/g, ""));
-
+  
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "auto";
     return () => (document.body.style.overflow = "auto");
@@ -94,7 +96,6 @@ export default function FormContainer({ isOpen, onClose }) {
 
     setSubmitting(true);
 
-    // Prepare HTML rows for items
     const itemsRows = cartItems
       .map(
         (item) => `
@@ -109,7 +110,6 @@ export default function FormContainer({ isOpen, onClose }) {
       )
       .join("");
 
-    // Business email
     const businessParams = {
       customer_name: formData.fullName,
       customer_email: formData.email,
@@ -124,6 +124,8 @@ export default function FormContainer({ isOpen, onClose }) {
       building_type: formData.buildingType || "N/A",
       delivery_address: formData.deliveryAddress,
       suite: formData.suite || "N/A",
+      state: formData.state || "N/A",
+      zip_code: formData.zipCode || "N/A",
       items: itemsRows,
       total: formatCurrency(calculateTotal()),
       to_name: "Htxcityrentals",
@@ -133,13 +135,14 @@ export default function FormContainer({ isOpen, onClose }) {
       reply_to: formData.email,
     };
 
-    // Customer confirmation email
     const customerParams = {
       customer_name: formData.fullName,
       event_date: formData.eventDate || "N/A",
       event_time: formData.eventStartTime || "N/A",
       delivery_address: formData.deliveryAddress,
       suite: formData.suite || "N/A",
+      state: formData.state || "N/A",
+      zip_code: formData.zipCode || "N/A",
       items: itemsRows,
       total: formatCurrency(calculateTotal()),
       year: new Date().getFullYear(),
@@ -150,10 +153,13 @@ export default function FormContainer({ isOpen, onClose }) {
     };
 
     try {
-      await sendQuoteMessage(businessParams);
-      await sendCustomerConfirmation(customerParams);
+      // Send business email first, then send customer confirmation in parallel
+      await sendQuoteMessage(businessParams); 
+      
+      // Fire-and-forget customer confirmation
+      sendCustomerConfirmation(customerParams).catch(console.error);
 
-      toast.success("Quote sent and confirmation email sent to customer!");
+      toast.success("Quote sent! Customer will receive confirmation shortly.");
       clearCart();
       setFormData({
         fullName: "",
@@ -169,6 +175,8 @@ export default function FormContainer({ isOpen, onClose }) {
         buildingType: "",
         deliveryAddress: "",
         suite: "",
+        state: "",
+        zipCode: "",
       });
       setShowPreview(false);
       setSubmitting(false);
@@ -176,7 +184,7 @@ export default function FormContainer({ isOpen, onClose }) {
       navigate("/");
     } catch (error) {
       console.error("FAILED! Error details:", error);
-      toast.error("Failed to send quote or confirmation: " + (error.text || error.message));
+      toast.error("Failed to send quote: " + (error.text || error.message));
       setSubmitting(false);
     }
   };

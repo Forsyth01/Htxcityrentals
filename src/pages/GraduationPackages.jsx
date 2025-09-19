@@ -97,7 +97,7 @@ export default function GraduationPackages() {
   };
 
   return (
-    <SmoothScrollWrapper damping={0.03}>
+<>
       <section className="bg-gray-50 py-16 px-4 md:px-16 my-20 tracking-tighter">
         <div className="w-full max-w-5xl mx-auto">
           <h2 className="text-4xl font-extrabold text-center mb-8 text-gray-900">
@@ -202,7 +202,7 @@ export default function GraduationPackages() {
           </div>
         </div>
       </section>
-      <Footer />
-    </SmoothScrollWrapper>
+        <Footer />
+      </>
   );
 }

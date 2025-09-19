@@ -11,7 +11,7 @@ import Hero2 from "../components/Hero";
 const Home = () => {
   return (
     <>
-     <SmoothScrollWrapper damping={0.03}>
+     {/* <SmoothScrollWrapper damping={0.03}> */}
       <div className="min-h-screen sm:pb-20 pb-10">
         {/* <Header /> */}
         <Hero2/>
@@ -28,7 +28,7 @@ const Home = () => {
         {/* <Quote /> */}
       </div>
         <Footer />
-      </SmoothScrollWrapper>
+      {/* </SmoothScrollWrapper> */}
     </>
   );
 };
