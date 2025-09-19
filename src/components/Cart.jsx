@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
 import { Minus, Plus, Trash2 } from "lucide-react";
-import FormContainer from "./ModernQuoteForm/FormContainer";
+import FormContainer from "./ModernQuoteForm/FormContainer2";
 
 export default function Cart() {
   const {
