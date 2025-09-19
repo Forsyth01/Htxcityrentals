@@ -30,14 +30,14 @@ export default function FormContainer({ isOpen, onClose }) {
     needSetup: "",
     buildingType: "",
     deliveryAddress: "",
-    suite: "",
+    city: "",
     state: "",
     zipCode: "",
   });
 
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const isValidPhone = (phone) => /^\+?\d{7,15}$/.test(phone.replace(/\s+/g, ""));
-  
+
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "auto";
     return () => (document.body.style.overflow = "auto");
@@ -123,7 +123,7 @@ export default function FormContainer({ isOpen, onClose }) {
       need_setup: formData.needSetup || "N/A",
       building_type: formData.buildingType || "N/A",
       delivery_address: formData.deliveryAddress,
-      suite: formData.suite || "N/A",
+      city: formData.city || "N/A",
       state: formData.state || "N/A",
       zip_code: formData.zipCode || "N/A",
       items: itemsRows,
@@ -140,7 +140,7 @@ export default function FormContainer({ isOpen, onClose }) {
       event_date: formData.eventDate || "N/A",
       event_time: formData.eventStartTime || "N/A",
       delivery_address: formData.deliveryAddress,
-      suite: formData.suite || "N/A",
+      city: formData.city || "N/A",
       state: formData.state || "N/A",
       zip_code: formData.zipCode || "N/A",
       items: itemsRows,
@@ -153,10 +153,7 @@ export default function FormContainer({ isOpen, onClose }) {
     };
 
     try {
-      // Send business email first, then send customer confirmation in parallel
       await sendQuoteMessage(businessParams); 
-      
-      // Fire-and-forget customer confirmation
       sendCustomerConfirmation(customerParams).catch(console.error);
 
       toast.success("Quote sent! Customer will receive confirmation shortly.");
@@ -174,6 +171,7 @@ export default function FormContainer({ isOpen, onClose }) {
         needSetup: "",
         buildingType: "",
         deliveryAddress: "",
+        city: "",
         suite: "",
         state: "",
         zipCode: "",

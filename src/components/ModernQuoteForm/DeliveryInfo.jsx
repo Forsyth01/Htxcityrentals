@@ -20,11 +20,20 @@ export default function DeliveryInfo({ formData, onChange }) {
 
       <input
         type="text"
+        name="city"
+        value={formData.city || ""}
+        onChange={onChange}
+        placeholder="City *"
+        className="w-full mt- px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      />
+
+      <input
+        type="text"
         name="state"
         value={formData.state}
         onChange={onChange}
         placeholder="State *"
-        className="w-full mt-3 px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        className="w-full mt- px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
       />
 
       <input
@@ -33,7 +42,7 @@ export default function DeliveryInfo({ formData, onChange }) {
         value={formData.zipCode}
         onChange={onChange}
         placeholder="Zip Code *"
-        className="w-full mt-3 px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        className="w-full mt- px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
       />
 
       {/* <input
