@@ -5,14 +5,20 @@ import { motion } from "framer-motion";
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
-  const [quantity, setQuantity] = useState("1");
+  const [quantity, setQuantity] = useState(1);
   const [days, setDays] = useState(1);
 
   const handleAddToCart = () => {
     addToCart(product, quantity, days);
-    setQuantity("1");
+    setQuantity(1);
     setDays(1);
   };
+
+  // Calculate total price
+  const totalPrice = (product.price * quantity * days).toFixed(2);
+
+  // Determine if the price should be total or per day
+  const isEditing = quantity > 1 || days > 1;
 
   return (
     <motion.div
@@ -53,7 +59,7 @@ export default function ProductCard({ product }) {
 
             {/* Price */}
             <p className="text-orange-600 font-bold text-sm sm:text-lg mt-2 tracking-tight">
-              ${product.price}/day
+              {isEditing ? `$${totalPrice}` : `$${product.price}/day`}
             </p>
           </div>
 
@@ -62,13 +68,9 @@ export default function ProductCard({ product }) {
             {/* Quantity */}
             <div className="flex items-center gap-2 flex-shrink-0">
               <span className="text-sm font-medium text-gray-700">Qty:</span>
-              <div className="ml-2 flex items-stretch bg-gray-100 rounded- overflow-hidden borde border-gray-300">
+              <div className="ml-2 flex items-stretch bg-gray-100 rounded overflow-hidden border border-gray-300">
                 <motion.button
-                  onClick={() =>
-                    setQuantity((q) =>
-                      String(Math.max(1, parseInt(q) - 1 || 1))
-                    )
-                  }
+                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                   className="px-2 sm:px-3 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition-colors"
                   whileTap={{ scale: 0.9 }}
                 >
@@ -79,14 +81,14 @@ export default function ProductCard({ product }) {
                   type="number"
                   min="1"
                   value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
+                  onChange={(e) =>
+                    setQuantity(Math.max(1, parseInt(e.target.value) || 1))
+                  }
                   className="w-14 text-center outline-none text-sm bg-gray-100"
                 />
 
                 <motion.button
-                  onClick={() =>
-                    setQuantity((q) => String((parseInt(q) || 1) + 1))
-                  }
+                  onClick={() => setQuantity((q) => q + 1)}
                   className="px-2 sm:px-3 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition-colors"
                   whileTap={{ scale: 0.9 }}
                 >
@@ -98,7 +100,7 @@ export default function ProductCard({ product }) {
             {/* Days */}
             <div className="flex items-center gap-2 flex-shrink-0">
               <span className="text-sm font-medium text-gray-700">Days:</span>
-              <div className="flex items-stretch bg-gray-100 rounded- overflow-hidden  border-gray-300">
+              <div className="flex items-stretch bg-gray-100 rounded overflow-hidden border border-gray-300">
                 <button
                   onClick={() => setDays((d) => Math.max(1, d - 1))}
                   className="px-2 sm:px-3 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition-colors"
