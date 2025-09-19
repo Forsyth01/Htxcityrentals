@@ -16,6 +16,7 @@
     "framer-motion": "^12.23.12",
     "locomotive-scroll": "^4.1.4",
     "lucide-react": "^0.542.0",
+    "node-fetch": "^3.3.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.62.0",
