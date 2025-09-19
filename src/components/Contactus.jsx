@@ -63,7 +63,7 @@ export default function ContactPage() {
         </motion.div>
 
         {/* Contact Form */}
-        <motion.div className="flex-1" variants={itemVariants}>
+        {/* <motion.div className="flex-1" variants={itemVariants}>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <motion.input
               type="text"
@@ -106,7 +106,7 @@ export default function ContactPage() {
               {loading ? "Sending..." : "Send Message"}
             </motion.button>
           </form>
-        </motion.div>
+        </motion.div> */}
       </motion.div>
     </div>
   );

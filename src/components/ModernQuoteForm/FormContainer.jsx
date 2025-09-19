@@ -7,7 +7,7 @@ import DeliveryInfo from "./DeliveryInfo";
 import CartSummary from "./CartSummary";
 import Preview from "./Preview";
 import FooterActions from "./FooterActions";
-import { sendQuoteMessage } from "../../utils/emailService"; // ✅ updated import
+import { sendQuoteMessage, sendCustomerConfirmation } from "../../utils/emailService";
 import { useCart } from "../../context/CartContext"; 
 import { useNavigate } from "react-router";
 
@@ -67,22 +67,14 @@ export default function FormContainer({ isOpen, onClose }) {
       toast.error("Please fill in required fields (Name, Email, Phone)");
       return false;
     }
-
     if (!isValidEmail(formData.email)) {
       toast.error("Invalid email format");
       return false;
     }
-
     if (!isValidPhone(formData.phoneNumber)) {
       toast.error("Invalid phone number format");
       return false;
     }
-
-    if (!formData.eventDate) {
-      toast.error("Please provide an event date");
-      return false;
-    }
-
     const eventDate = new Date(formData.eventDate);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -90,19 +82,11 @@ export default function FormContainer({ isOpen, onClose }) {
       toast.error("Event date cannot be in the past");
       return false;
     }
-
-    if (!formData.eventStartTime) {
-      toast.error("Please provide an event start time");
-      return false;
-    }
-
     return true;
   };
 
   const handlePreview = () => {
-    if (validateForm()) {
-      setShowPreview(true);
-    }
+    if (validateForm()) setShowPreview(true);
   };
 
   const handleSend = async () => {
@@ -110,21 +94,23 @@ export default function FormContainer({ isOpen, onClose }) {
 
     setSubmitting(true);
 
+    // Prepare HTML rows for items
     const itemsRows = cartItems
       .map(
         (item) => `
         <tr>
-          <td style="border:1px solid #ddd; padding:8px;">${item.name}</td>
-          <td style="border:1px solid #ddd; padding:8px; text-align:center;">${item.quantity}</td>
-          <td style="border:1px solid #ddd; padding:8px; text-align:center;">${item.days || 1}</td>
-          <td style="border:1px solid #ddd; padding:8px; text-align:right;">${formatCurrency(
+          <td style="border:1px solid #ddd;padding:8px;">${item.name}</td>
+          <td style="border:1px solid #ddd;padding:8px;text-align:center;">${item.quantity}</td>
+          <td style="border:1px solid #ddd;padding:8px;text-align:center;">${item.days || 1}</td>
+          <td style="border:1px solid #ddd;padding:8px;text-align:right;">${formatCurrency(
             item.price * item.quantity * (item.days || 1)
           )}</td>
         </tr>`
       )
       .join("");
 
-    const templateParams = {
+    // Business email
+    const businessParams = {
       customer_name: formData.fullName,
       customer_email: formData.email,
       company: formData.companyName || "N/A",
@@ -147,9 +133,27 @@ export default function FormContainer({ isOpen, onClose }) {
       reply_to: formData.email,
     };
 
+    // Customer confirmation email
+    const customerParams = {
+      customer_name: formData.fullName,
+      event_date: formData.eventDate || "N/A",
+      event_time: formData.eventStartTime || "N/A",
+      delivery_address: formData.deliveryAddress,
+      suite: formData.suite || "N/A",
+      items: itemsRows,
+      total: formatCurrency(calculateTotal()),
+      year: new Date().getFullYear(),
+      to_email: formData.email,
+      from_name: "Htxcityrentals",
+      from_email: "Htxcityrentals@gmail.com",
+      reply_to: "Htxcityrentals@gmail.com"
+    };
+
     try {
-      await sendQuoteMessage(templateParams); // ✅ use service that reads .env keys
-      toast.success("Quote sent successfully!");
+      await sendQuoteMessage(businessParams);
+      await sendCustomerConfirmation(customerParams);
+
+      toast.success("Quote sent and confirmation email sent to customer!");
       clearCart();
       setFormData({
         fullName: "",
@@ -172,7 +176,7 @@ export default function FormContainer({ isOpen, onClose }) {
       navigate("/");
     } catch (error) {
       console.error("FAILED! Error details:", error);
-      toast.error("Failed to send quote: " + (error.text || error.message));
+      toast.error("Failed to send quote or confirmation: " + (error.text || error.message));
       setSubmitting(false);
     }
   };
@@ -182,7 +186,11 @@ export default function FormContainer({ isOpen, onClose }) {
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden">
         <div className="flex justify-between items-center px-6 py-4 border-b">
           <h2 className="text-lg font-bold text-orange-500">Request a Quote</h2>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full">
+          <button
+            onClick={() => !submitting && onClose()}
+            className={`p-2 hover:bg-gray-100 rounded-full ${submitting ? "cursor-not-allowed opacity-50" : ""}`}
+            disabled={submitting}
+          >
             <X className="w-5 h-5" />
           </button>
         </div>
