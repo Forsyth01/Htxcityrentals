@@ -1,43 +1,39 @@
-// File: components/ModernQuoteForm/FooterActions.jsx
-import React from "react";
-
-export default function FooterActions({ showPreview, formData, cartItems = [], onPreview, onEdit, onSend, submitting }) {
-  const disabled = !formData.fullName || !formData.email || !formData.phoneNumber || !formData.deliveryAddress || !cartItems?.length;
-
+export default function FooterActions({
+  showPreview,
+  onPreview,
+  onEdit,
+  onSend,
+  submitting
+}) {
   return (
-    <>
-      {!showPreview ? (
+    <div className="flex justify-end gap-3">
+      {!showPreview && (
         <button
           onClick={onPreview}
-          className="px-6 py-2 rounded-lg bg-orange-600 text-white font-medium hover:bg-orange-700 transition duration-200 text-sm disabled:opacity-50"
-          disabled={disabled}
+          className="px-4 py-2 cursor-pointer mb-3 md:mr-10 mr-6 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition duration-200"
+          disabled={submitting}
         >
-          Preview Quote
+          Preview
         </button>
-      ) : (
+      )}
+      {showPreview && (
         <>
           <button
             onClick={onEdit}
-            className="px-6 py-2 rounded-lg bg-gray-300 text-gray-700 font-medium hover:bg-gray-400 transition duration-200 text-sm"
+            className="px-4 py-2 cursor-pointer mb-3 border border-gray-300 rounded-lg hover:bg-gray-100 transition duration-200"
+            disabled={submitting}
           >
             Edit
           </button>
           <button
             onClick={onSend}
+            className="px-4 py-2 cursor-pointer mb-3 md:mr-10 mr-6 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition duration-200"
             disabled={submitting}
-            className="px-6 py-2 rounded-lg bg-orange-600 text-white font-medium hover:bg-orange-700 disabled:opacity-50 transition duration-200 text-sm flex items-center gap-2"
           >
-            {submitting ? (
-              <>
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Sending...
-              </>
-            ) : (
-              "Confirm & Send Quote"
-            )}
+            {submitting ? "Sending..." : "Confirm"}
           </button>
         </>
       )}
-    </>
+    </div>
   );
 }

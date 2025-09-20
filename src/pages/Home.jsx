@@ -11,24 +11,15 @@ import Hero2 from "../components/Hero";
 const Home = () => {
   return (
     <>
-     {/* <SmoothScrollWrapper damping={0.03}> */}
       <div className="min-h-screen sm:pb-20 pb-10">
-        {/* <Header /> */}
-        <Hero2/>
-        {/* <Hero /> */}
-        {/* <RentalCollection /> */}
-        <PreviewCart/>
-        {/* <CardWithImage/> */}
-        <CardSection/>
+        <Hero2 />
+        <PreviewCart />
+        <CardSection />
         <Gallery />
-        {/* <Rentals /> */}
-        {/* <Packages /> */}
         <FAQ />
-        <ContactPage/>
-        {/* <Quote /> */}
+        <ContactPage />
       </div>
-        <Footer />
-      {/* </SmoothScrollWrapper> */}
+      <Footer />
     </>
   );
 };

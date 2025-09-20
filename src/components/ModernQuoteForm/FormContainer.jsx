@@ -1,22 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { X } from "lucide-react";
-import toast from "react-hot-toast";
-import PersonalInfo from "./PersonalInfo";
-import EventDetails from "./EventDetails";
-import DeliveryInfo from "./DeliveryInfo";
-import CartSummary from "./CartSummary";
-import Preview from "./Preview";
-import FooterActions from "./FooterActions";
-import { sendQuoteMessage, sendCustomerConfirmation } from "../../utils/emailService";
-import { useCart } from "../../context/CartContext"; 
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router";
+import { useCart } from "../../context/CartContext";
+import { sendQuoteMessage, sendCustomerConfirmation } from "../../utils/emailService";
+import { useFormValidation } from "../../hooks/useFormValidation";
+
+import ModalHeader from "./ModalHeader";
+import FormContent from "./FormContent";
+import FooterActions from "./FooterActions";
 
 export default function FormContainer({ isOpen, onClose }) {
   const { cartItems, clearCart } = useCart();
-  const [submitting, setSubmitting] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
-  const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -34,9 +28,11 @@ export default function FormContainer({ isOpen, onClose }) {
     state: "",
     zipCode: "",
   });
+  const [submitting, setSubmitting] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const navigate = useNavigate();
 
-  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const isValidPhone = (phone) => /^\+?\d{7,15}$/.test(phone.replace(/\s+/g, ""));
+  const { validateForm } = useFormValidation(formData);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "auto";
@@ -50,49 +46,21 @@ export default function FormContainer({ isOpen, onClose }) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const calculateTotal = () => {
-    if (!cartItems || cartItems.length === 0) return 0;
-    return cartItems.reduce(
-      (sum, item) => sum + item.price * item.quantity * (item.days || 1),
-      0
-    );
-  };
+  const calculateTotal = () =>
+    cartItems.reduce((sum, item) => sum + item.price * item.quantity * (item.days || 1), 0);
 
   const formatCurrency = (amount) =>
-    `$${Number(amount).toLocaleString("en-US", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })}`;
-
-  const validateForm = () => {
-    if (!formData.fullName || !formData.email || !formData.phoneNumber) {
-      toast.error("Please fill in required fields (Name, Email, Phone)");
-      return false;
-    }
-    if (!isValidEmail(formData.email)) {
-      toast.error("Invalid email format");
-      return false;
-    }
-    if (!isValidPhone(formData.phoneNumber)) {
-      toast.error("Invalid phone number format");
-      return false;
-    }
-    const eventDate = new Date(formData.eventDate);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    if (eventDate < today) {
-      toast.error("Event date cannot be in the past");
-      return false;
-    }
-    return true;
-  };
+    `$${Number(amount).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
   const handlePreview = () => {
-    if (validateForm()) setShowPreview(true);
+    const result = validateForm();
+    if (!result.valid) return toast.error(result.error);
+    setShowPreview(true);
   };
 
   const handleSend = async () => {
-    if (!validateForm()) return;
+    const result = validateForm();
+    if (!result.valid) return toast.error(result.error);
 
     setSubmitting(true);
 
@@ -149,11 +117,11 @@ export default function FormContainer({ isOpen, onClose }) {
       to_email: formData.email,
       from_name: "Htxcityrentals",
       from_email: "Htxcityrentals@gmail.com",
-      reply_to: "Htxcityrentals@gmail.com"
+      reply_to: "Htxcityrentals@gmail.com",
     };
 
     try {
-      await sendQuoteMessage(businessParams); 
+      await sendQuoteMessage(businessParams);
       sendCustomerConfirmation(customerParams).catch(console.error);
 
       toast.success("Quote sent! Customer will receive confirmation shortly.");
@@ -172,7 +140,6 @@ export default function FormContainer({ isOpen, onClose }) {
         buildingType: "",
         deliveryAddress: "",
         city: "",
-        suite: "",
         state: "",
         zipCode: "",
       });
@@ -190,59 +157,24 @@ export default function FormContainer({ isOpen, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden">
-        <div className="flex justify-between items-center px-6 py-4 border-b">
-          <h2 className="text-lg font-bold text-orange-500">Request a Quote</h2>
-          <button
-            onClick={() => !submitting && onClose()}
-            className={`p-2 hover:bg-gray-100 rounded-full ${submitting ? "cursor-not-allowed opacity-50" : ""}`}
-            disabled={submitting}
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        <div
-          className={`flex-1 overflow-y-auto p-6 sm:grid gap-6 ${
-            !showPreview ? "md:grid-cols-4" : "md:grid-cols-3"
-          }`}
-        >
-          {!showPreview && (
-            <div className="space-y-3 col-span-2">
-              <PersonalInfo formData={formData} onChange={handleInputChange} />
-              <EventDetails formData={formData} onChange={handleInputChange} />
-              <DeliveryInfo formData={formData} onChange={handleInputChange} />
-            </div>
-          )}
-
-          <CartSummary
-            cartItems={cartItems}
-            formatCurrency={formatCurrency}
-            calculateTotal={calculateTotal}
-            showPreview={showPreview}
-          />
-
-          {showPreview && (
-            <Preview
-              formData={formData}
-              cartItems={cartItems}
-              formatCurrency={formatCurrency}
-              calculateTotal={calculateTotal}
-              className="col-span-2"
-            />
-          )}
-        </div>
-
-        <div className="px-6 py-4 border-t bg-gray-50 flex justify-end gap-3">
-          <FooterActions
-            showPreview={showPreview}
-            formData={formData}
-            cartItems={cartItems}
-            onPreview={handlePreview}
-            onEdit={() => setShowPreview(false)}
-            onSend={handleSend}
-            submitting={submitting}
-          />
-        </div>
+        <ModalHeader title="Request a Quote" onClose={onClose} submitting={submitting} />
+        <FormContent
+          showPreview={showPreview}
+          formData={formData}
+          handleInputChange={handleInputChange}
+          cartItems={cartItems}
+          formatCurrency={formatCurrency}
+          calculateTotal={calculateTotal}
+        />
+        <FooterActions
+          showPreview={showPreview}
+          formData={formData}
+          cartItems={cartItems}
+          onPreview={handlePreview}
+          onEdit={() => setShowPreview(false)}
+          onSend={handleSend}
+          submitting={submitting}
+        />
       </div>
     </div>
   );

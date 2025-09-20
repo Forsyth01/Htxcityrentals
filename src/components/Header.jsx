@@ -3,6 +3,7 @@ import { ArrowRight, Menu, X, ShoppingCart, Store } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import Cart from "./Cart";
 import { useCart } from "../context/CartContext";
+import PhoneNumberHeader from "./PhoneNumberHeader";
 
 const NavLink = ({ href, children, onClick }) => (
   <a
@@ -22,6 +23,7 @@ export default function Header() {
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
+  const isHomePage = location.pathname === "/";
   const isOurProductsPage = location.pathname === "/ourproducts";
   const isCartPage = location.pathname === "/cart";
   const isMyProductPage = location.pathname === "/my-product";
@@ -29,25 +31,21 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200/50 shadow-sm font-sans tracking-tighter">
+      {/* Phone number only on home page */}
+      {!isCartPage && <PhoneNumberHeader />}
+
       <div className="mx-auto lg:max-w-[90%] px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="font-bold text-xl tracking-tight">
-          {/* <span className="text-orange-600 italic">Htx</span>cityrentals */}
-          <img src="/logo.png" alt="" className="h-20" />
+          <img src="/logo.png" alt="Logo" className="h-20" />
         </Link>
-        {/* <Link to="/" className="font-bold text-xl tracking-tight">
-          <span className="text-orange-600 italic">Htx</span>cityrentals
-        </Link> */}
 
         {/* Desktop Nav */}
         {!isCartPage && !isOurProductsPage && !isMyProductPage && (
           <nav className="hidden md:flex items-center gap-8">
-            {/* {!isGraduationPage && <NavLink href="#packages">Packages</NavLink>} */}
             {!isGraduationPage && <NavLink href="#gallery">Gallery</NavLink>}
             {!isGraduationPage && <NavLink href="#faq">FAQ</NavLink>}
-            {!isGraduationPage && (
-              <NavLink href="#contactus">Contact us</NavLink>
-            )}
+            {!isGraduationPage && <NavLink href="#contactus">Contact us</NavLink>}
             <Link
               to="/graduation-packages"
               className="text-base font-medium text-gray-800 hover:text-orange-600 transition-colors duration-200"
@@ -73,7 +71,7 @@ export default function Header() {
 
           {/* Cart page: link back to store on mobile */}
           {isCartPage && (
-            <Link to="/ourproducts" className="">
+            <Link to="/ourproducts">
               <button className="p-2 cursor-pointer rounded-full bg-white/50 text-gray-700 hover:bg-white/80 transition-all duration-200">
                 <Store className="w-5 h-5" />
               </button>
@@ -104,11 +102,7 @@ export default function Header() {
                 onClick={toggleSidebar}
                 aria-label="Toggle menu"
               >
-                {isSidebarOpen ? (
-                  <X className="w-5 h-5" />
-                ) : (
-                  <Menu className="w-5 h-5" />
-                )}
+                {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             )}
         </div>
@@ -149,7 +143,6 @@ export default function Header() {
 
             {/* Sidebar Navigation */}
             <nav className="flex-1 flex flex-col gap-6 p-6 bg-white">
-              {/* {!isGraduationPage && <NavLink href="#packages" onClick={toggleSidebar}>Packages</NavLink>} */}
               {!isGraduationPage && (
                 <NavLink href="#gallery" onClick={toggleSidebar}>
                   Gallery

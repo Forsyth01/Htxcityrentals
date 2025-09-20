@@ -12,6 +12,7 @@ import MyCart from "./pages/MyCart";
 import GraduationPackages from "./pages/GraduationPackages";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
+import PhoneNumberHeader from "./components/PhoneNumberHeader";
 
 // Animation variants
 const pageVariants = {
@@ -29,45 +30,46 @@ const App = () => {
 
   return (
     <>
-      <ScrollToTop/>
-    <CartProvider>
-      <Toaster position="bottom-right" toastOptions={{ autoClose: 1000 }} />
-      <Header />
+        {/* <PhoneNumberHeader/> */}
+      <ScrollToTop />
+      <CartProvider>
+        <Toaster position="bottom-right" toastOptions={{ autoClose: 1000 }} />
+        <Header />
 
-      {/* AnimatePresence uses browser scrollbar only */}
-      <AnimatePresence mode="wait" initial={true}>
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Home />} />
-          {[
-            { path: "/ourproducts", Component: OurProducts },
-            { path: "/cart", Component: MyCart },
-            { path: "/graduation-packages", Component: GraduationPackages },
-          ].map(({ path, Component }) => (
-            <Route
-              key={path}
-              path={path}
-              element={
-                <motion.div
-                  initial="initial"
-                  animate="in"
-                  exit="out"
-                  variants={pageVariants}
-                  transition={pageTransition}
-                  className="w-full"
-                >
-                  <Component />
-                </motion.div>
-              }
-            />
-          ))}
-        </Routes>
-      </AnimatePresence>
+        {/* AnimatePresence uses browser scrollbar only */}
+        <AnimatePresence mode="wait" initial={true}>
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<Home />} />
+            {[
+              { path: "/ourproducts", Component: OurProducts },
+              { path: "/cart", Component: MyCart },
+              { path: "/graduation-packages", Component: GraduationPackages },
+            ].map(({ path, Component }) => (
+              <Route
+                key={path}
+                path={path}
+                element={
+                  <motion.div
+                    initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={pageVariants}
+                    transition={pageTransition}
+                    className="w-full"
+                  >
+                    <Component />
+                  </motion.div>
+                }
+              />
+            ))}
+          </Routes>
+        </AnimatePresence>
 
-      {/* <QuoteForm
+        {/* <QuoteForm
         isOpen={isQuoteOpen}
         onClose={() => setIsQuoteOpen(false)}
       /> */}
-    </CartProvider>
+      </CartProvider>
     </>
   );
 };
