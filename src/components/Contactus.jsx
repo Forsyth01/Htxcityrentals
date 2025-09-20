@@ -72,7 +72,12 @@ export default function ContactPage() {
             <div className="flex flex-col gap-4 mt-4">
               <div className="flex items-center gap-3 text-gray-700">
                 <Phone size={20} />
-                <span>+1 317 459 3144</span>
+                <a
+                  href="tel:+2341234567890"
+                  className="text-gray-600 text-sm hover:text-orange-500 transition-colors"
+                >
+                   +234 123 456 7890
+                </a>
               </div>
               <a
                 href="mailto:Htxcityrentals@gmail.com"

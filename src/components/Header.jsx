@@ -36,16 +36,24 @@ export default function Header() {
 
       <div className="mx-auto lg:max-w-[90%] px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="font-bold text-xl tracking-tight">
-          <img src="/logo.png" alt="Logo" className="h-20" />
-        </Link>
+        {location.pathname === "/" ? (
+          <a href="#home" className="font-bold text-xl tracking-tight">
+            <img src="/logo.png" alt="Logo" className="h-20" />
+          </a>
+        ) : (
+          <Link to="/" className="font-bold text-xl tracking-tight">
+            <img src="/logo.png" alt="Logo" className="h-20" />
+          </Link>
+        )}
 
         {/* Desktop Nav */}
         {!isCartPage && !isOurProductsPage && !isMyProductPage && (
           <nav className="hidden md:flex items-center gap-8">
             {!isGraduationPage && <NavLink href="#gallery">Gallery</NavLink>}
             {!isGraduationPage && <NavLink href="#faq">FAQ</NavLink>}
-            {!isGraduationPage && <NavLink href="#contactus">Contact us</NavLink>}
+            {!isGraduationPage && (
+              <NavLink href="#contactus">Contact us</NavLink>
+            )}
             <Link
               to="/graduation-packages"
               className="text-base font-medium text-gray-800 hover:text-orange-600 transition-colors duration-200"
@@ -102,7 +110,11 @@ export default function Header() {
                 onClick={toggleSidebar}
                 aria-label="Toggle menu"
               >
-                {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                {isSidebarOpen ? (
+                  <X className="w-5 h-5" />
+                ) : (
+                  <Menu className="w-5 h-5" />
+                )}
               </button>
             )}
         </div>

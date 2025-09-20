@@ -37,7 +37,7 @@ export default function Hero2() {
   };
 
   return (
-    <section className="relative h-[100vh] 2xl:h-[95vh] flex items-center justify-center text-center overflow-hidden">
+    <section id="home" className="relative h-[100vh] 2xl:h-[95vh] flex items-center justify-center text-center overflow-hidden">
       {/* Background Images with fade transition */}
       {images.map((img, index) => (
         <div
@@ -54,7 +54,7 @@ export default function Hero2() {
 
       {/* Animated Hero Content */}
       <motion.div
-        className="relative 2xl:h-[30vh] xl:h-[40vh] lg:h-[40vh] md:h-[35vh] sm:h-[45vh] h-[20vh] "
+        className="relative 2xl:h-[20vh] xl:h-[30vh] lg:h-[40vh] md:h-[35vh] sm:h-[45vh] h-[20vh] "
         variants={containerVariants}
         initial="hidden"
         animate="visible"
