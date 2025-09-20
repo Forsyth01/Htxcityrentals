@@ -32,7 +32,7 @@ export default function Header() {
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200/50 shadow-sm font-sans tracking-tighter">
       {/* Phone number only on home page */}
-      {!isCartPage && <PhoneNumberHeader />}
+      {/* {!isCartPage && <PhoneNumberHeader />} */}
 
       <div className="mx-auto lg:max-w-[90%] px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}

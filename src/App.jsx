@@ -13,6 +13,7 @@ import GraduationPackages from "./pages/GraduationPackages";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import PhoneNumberHeader from "./components/PhoneNumberHeader";
+import PhoneNumber from "./components/PhoneNumber";
 
 // Animation variants
 const pageVariants = {
@@ -27,10 +28,11 @@ const pageTransition = { type: "tween", ease: "easeInOut", duration: 0.5 };
 const App = () => {
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
   const location = useLocation();
+   const isCartPage = location.pathname === "/cart";
 
   return (
     <>
-        {/* <PhoneNumberHeader/> */}
+      {/* <PhoneNumberHeader/> */}
       <ScrollToTop />
       <CartProvider>
         <Toaster position="bottom-right" toastOptions={{ autoClose: 1000 }} />
@@ -63,12 +65,8 @@ const App = () => {
               />
             ))}
           </Routes>
+          {!isCartPage && <PhoneNumber />}
         </AnimatePresence>
-
-        {/* <QuoteForm
-        isOpen={isQuoteOpen}
-        onClose={() => setIsQuoteOpen(false)}
-      /> */}
       </CartProvider>
     </>
   );
