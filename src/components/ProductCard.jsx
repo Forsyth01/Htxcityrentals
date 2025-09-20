@@ -71,7 +71,7 @@ export default function ProductCard({ product }) {
               <div className="ml-2 flex items-stretch bg-gray-100 rounded overflow-hidden border border-gray-300">
                 <motion.button
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="px-2 sm:px-3 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition-colors"
+                  className="cursor-pointer px-2 sm:px-3 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition-colors"
                   whileTap={{ scale: 0.9 }}
                 >
                   <Minus size={14} />
@@ -89,7 +89,7 @@ export default function ProductCard({ product }) {
 
                 <motion.button
                   onClick={() => setQuantity((q) => q + 1)}
-                  className="px-2 sm:px-3 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition-colors"
+                  className="cursor-pointer px-2 sm:px-3 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition-colors"
                   whileTap={{ scale: 0.9 }}
                 >
                   <Plus size={14} />
@@ -103,7 +103,7 @@ export default function ProductCard({ product }) {
               <div className="flex items-stretch bg-gray-100 rounded overflow-hidden border border-gray-300">
                 <button
                   onClick={() => setDays((d) => Math.max(1, d - 1))}
-                  className="px-2 sm:px-3 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition-colors"
+                  className="cursor-pointer px-2 sm:px-3 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition-colors"
                 >
                   <Minus size={14} />
                 </button>
@@ -131,7 +131,7 @@ export default function ProductCard({ product }) {
           {/* Add to Cart Button */}
           <motion.button
             onClick={handleAddToCart}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:from-orange-600 hover:to-orange-700 transition-colors text-xs sm:text-sm font-medium tracking-tight mt-3"
+            className="cursor-pointer w-full flex items-center justify-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:from-orange-600 hover:to-orange-700 transition-colors text-xs sm:text-sm font-medium tracking-tight mt-3"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.95 }}
           >

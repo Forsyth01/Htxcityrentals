@@ -10,6 +10,8 @@ body{
     font-family: "Schoolbell", cursive;
 }
 
-
+button{
+    cursor: pointer;
+}
 
 

@@ -93,7 +93,7 @@ export default function Cart() {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => decreaseQuantity(item.cartItemId)}
-                        className="w-7 h-7 flex items-center justify-center bg-gray-200 rounded hover:bg-gray-300 transition-colors"
+                        className=" cursor-pointer w-7 h-7 flex items-center justify-center bg-gray-200 rounded hover:bg-gray-300 transition-colors"
                       >
                         <Minus size={14} />
                       </button>
@@ -111,7 +111,7 @@ export default function Cart() {
                       />
                       <button
                         onClick={() => increaseQuantity(item.cartItemId)}
-                        className="w-7 h-7 flex items-center justify-center bg-orange-500 text-white rounded hover:bg-orange-600 transition-colors"
+                        className=" cursor-pointer w-7 h-7 flex items-center justify-center bg-orange-500 text-white rounded hover:bg-orange-600 transition-colors"
                       >
                         <Plus size={14} />
                       </button>
@@ -140,7 +140,7 @@ export default function Cart() {
                       {/* Remove Button */}
                       <button
                         onClick={() => removeFromCart(item.cartItemId)}
-                        className="text-red-500 hover:text-red-600 text-xs flex items-center gap-1"
+                        className="cursor-pointer text-red-500 hover:text-red-600 text-xs flex items-center gap-1"
                       >
                         <Trash2 size={14} /> Remove
                       </button>
@@ -166,7 +166,7 @@ export default function Cart() {
 
           <button
             onClick={() => setIsQuoteOpen(true)}
-            className="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition-colors font-semibold"
+            className="cursor-pointer w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition-colors font-semibold"
           >
             Checkout
           </button>
@@ -177,7 +177,7 @@ export default function Cart() {
                 clearCart();
               }
             }}
-            className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition-colors font-semibold"
+            className="cursor-pointer w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition-colors font-semibold"
           >
             Clear Cart
           </button>
