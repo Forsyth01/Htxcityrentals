@@ -129,7 +129,7 @@ export default function MobileSidebar({
                   }
                   {!isGraduationPage ||
                     !isOurProductsPage ||
-                    (!isCartPage && (
+                    (!isCartPage && ( 
                       <motion.div
                         className="w-full border-b border-gray-300"
                         variants={linkVariants}
