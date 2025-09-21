@@ -3,7 +3,7 @@ import { Phone } from 'lucide-react';
 
 const PhoneNumber= () => {
     return (
-        <div className="fixed bottom-10 right-6 xl:right-12 z-50">
+        <div className="fixed bottom-10 right-6 xl:right-12 z-10">
             <a
                 href="tel:+13174593144"
                 className="relative group"

@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import Home from "./pages/Home";
 import OurProducts from "./pages/OurProducts";
-import Header from "./components/Header";
+import Header from "./components/header/Header";
 import MyCart from "./pages/MyCart";
 import GraduationPackages from "./pages/GraduationPackages";
 import Footer from "./components/Footer";

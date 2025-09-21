@@ -1,16 +1,12 @@
 import React from "react";
 import ProductCard from "../components/ProductCard";
 import { products } from "../utils/products";
-import FAQ from "../components/FAQ";
 import Footer from "../components/Footer";
-import CardSection from "../components/CardSection";
-import Gallery from "../components/Gallery";
-import ContactPage from "../components/Contactus";
-import SmoothScrollWrapper from "../components/SmoothScrollWrapper";
+
 
 const OurProducts = () => {
   return (
-    <SmoothScrollWrapper damping={0.03}>
+    <>
       <div className="mt-24 ">
         <div className="lg:w-[90%] lg:pb-20 pb-10 m-auto">
           <div className="flex ">
@@ -19,17 +15,11 @@ const OurProducts = () => {
                 <ProductCard key={p.name} product={p} />
               ))}
             </div>
-            {/* <Cart /> */}
           </div>
         </div>
-        {/* <Rentals/> */}
-        {/* <CardSection/> */}
-        {/* <Gallery />
-        <FAQ />
-        <ContactPage /> */}
         <Footer />
       </div>
-    </SmoothScrollWrapper>
+    </>
   );
 };
 
