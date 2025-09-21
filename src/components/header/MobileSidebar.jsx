@@ -104,7 +104,7 @@ export default function MobileSidebar({
               {/* Nav with staggered children */}
               <div className="flex-1 flex flex-col justify-center w-full border- border-gray-300">
                 <motion.nav
-                  className="flex flex-col h-[75vh] space-y-6 justify-center items-center w-full px-6"
+                  className="flex flex-col h-[75vh] overflow-hidden space-y-6 justify-center items-center w-full px-6"
                   variants={navVariants}
                   initial="hidden"
                   animate="visible"

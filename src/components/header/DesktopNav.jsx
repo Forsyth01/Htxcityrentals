@@ -7,9 +7,8 @@ export default function DesktopNav({ location }) {
   const isGraduationPage = location.pathname === "/graduation-packages";
   const isCartPage = location.pathname === "/cart";
   const isOurProductsPage = location.pathname === "/ourproducts";
-  const isMyProductPage = location.pathname === "/my-product";
 
-  if (isCartPage || isOurProductsPage || isMyProductPage) return null;
+//   if (isCartPage || isOurProductsPage) return null;
 
   // parent controls stagger
   const container = {
@@ -33,17 +32,17 @@ export default function DesktopNav({ location }) {
       initial="hidden"
       animate="show"
     >
-      {!isGraduationPage && (
+      {!isGraduationPage && !isCartPage && !isOurProductsPage && (
         <motion.div variants={item}>
           <NavLink href="#gallery">Gallery</NavLink>
         </motion.div>
       )}
-      {!isGraduationPage && (
+      {!isGraduationPage  && !isCartPage && !isOurProductsPage && (
         <motion.div variants={item}>
           <NavLink href="#faq">FAQ</NavLink>
         </motion.div>
       )}
-      {!isGraduationPage && (
+      {!isGraduationPage && !isCartPage && !isOurProductsPage && (
         <motion.div variants={item}>
           <NavLink href="#contactus">Contact us</NavLink>
         </motion.div>
@@ -51,7 +50,7 @@ export default function DesktopNav({ location }) {
       <motion.div variants={item}>
         <Link
           to="/graduation-packages"
-          className="uppercase text-base font-medium text-gray-800 hover:text-orange-600 transition-colors duration-200"
+          className={`uppercase text-base font-medium text-gray-800 hover:text-orange-600 transition-colors duration-200 ${isCartPage && " underline underline-offset-8 hover:scale-105"}`}
         >
           Graduation Packages
         </Link>

@@ -89,13 +89,15 @@ export default function ContactPage() {
             </div>
           </div>
         </motion.div>
-        <div className="">
+        <motion.div
+         variants={itemVariants}
+        className="">
           <img
             src="/images/img1 (6).jpg"
             alt=""
             className="sm:h-90 h-50 w-80 rounded-xl object-cover"
           />
-        </div>
+        </motion.div>
         {/* Contact Form */}
         {/* <motion.div className="flex-1" variants={itemVariants}>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">

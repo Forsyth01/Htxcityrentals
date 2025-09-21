@@ -40,7 +40,7 @@ export default function Cart() {
   }, [isQuoteOpen]);
 
   return (
-    <div className="p-4 flex flex-col md:flex-row gap-6 w-full max-w-5xl mx-auto mt-20 tracking-tighter">
+    <div className="p-4 flex flex-col md:flex-row gap-6 w-full max-w-5xl mx-auto  mt-26 tracking-tighter">
       {/* Quote Form Modal */}
       <FormContainer
         isOpen={isQuoteOpen}
