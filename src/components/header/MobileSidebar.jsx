@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router";
-import { StoreIcon, X } from "lucide-react";
+import { HomeIcon, StoreIcon, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import NavLink from "./NavLink";
 
@@ -102,9 +102,9 @@ export default function MobileSidebar({
               </div>
 
               {/* Nav with staggered children */}
-              <div className="flex-1 flex flex-col justify-center w-full border-b border-gray-300">
+              <div className="flex-1 flex flex-col justify-center w-full border- border-gray-300">
                 <motion.nav
-                  className="flex flex-col h-[80vh] space-y-4 justify-center items-center w-full px-6"
+                  className="flex flex-col h-[75vh] space-y-6 justify-center items-center w-full px-6"
                   variants={navVariants}
                   initial="hidden"
                   animate="visible"
@@ -119,16 +119,17 @@ export default function MobileSidebar({
                     >
                       <Link
                         to="/"
-                        className="block text-2xl uppercase font-medium text-gray-800 transition-colors duration-200"
+                        className="block border-b border-gray-300 text-2xl uppercase font-medium text-gray-800 transition-colors duration-200"
                         onClick={() => setIsSidebarOpen(false)}
                       >
-                        Home
+                        <span className="flex items-center gap-2"><HomeIcon className="w-5 h-5" /> Home</span>
+                       
                       </Link>
                     </motion.div>
                   }
                   {!isGraduationPage ||
-                    isOurProductsPage ||
-                    (isCartPage && (
+                    !isOurProductsPage ||
+                    (!isCartPage && (
                       <motion.div
                         className="w-full border-b border-gray-300"
                         variants={linkVariants}
@@ -140,6 +141,7 @@ export default function MobileSidebar({
                           onClick={() => setIsSidebarOpen(false)}
                         >
                           Gallery
+                          <GalleryIcon className="w-5 h-5" />
                         </NavLink>
                       </motion.div>
                     ))}
@@ -185,7 +187,7 @@ export default function MobileSidebar({
                   >
                     <Link
                       to="/graduation-packages"
-                      className="block text-2xl uppercase font-medium text-gray-800 transition-colors duration-200"
+                      className="block text-2xl border-b border-gray-300 uppercase font-medium text-gray-800 transition-colors duration-200"
                       onClick={() => setIsSidebarOpen(false)}
                     >
                       Graduation Packages
@@ -199,7 +201,7 @@ export default function MobileSidebar({
                   >
                     <Link
                       to="/ourproducts"
-                      className="block text-2xl uppercase font-medium text-gray-800 transition-colors duration-200"
+                      className="block border-b border-gray-300 text-2xl uppercase font-medium text-gray-800 transition-colors duration-200"
                       onClick={() => setIsSidebarOpen(false)}
                     >
                       Our Rentals
@@ -213,7 +215,7 @@ export default function MobileSidebar({
                   >
                     <Link
                       to="/cart"
-                      className="block text-2xl uppercase font-medium text-gray-800 transition-colors duration-200"
+                      className="block border-b border-gray-300 text-2xl uppercase font-medium text-gray-800 transition-colors duration-200"
                       onClick={() => setIsSidebarOpen(false)}
                     >
                       <span className="flex items-center gap-2">
