@@ -73,10 +73,10 @@ export default function ContactPage() {
               <div className="flex items-center gap-3 text-gray-700">
                 <Phone size={20} />
                 <a
-                  href="tel:+2341234567890"
+                  href="tel:+13174593144"
                   className="text-gray-600 text-sm hover:text-orange-500 transition-colors"
                 >
-                   +234 123 456 7890
+                   +1 (317) 459-3144
                 </a>
               </div>
               <a
